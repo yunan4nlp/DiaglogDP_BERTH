@@ -14,8 +14,8 @@ class Decoder(nn.Module):
         self.rel_linear = nn.Linear(in_features=config.mlp_rel_size,
                                     out_features=vocab.rel_size, bias=True)
 
-        nn.init.orthogonal_(self.arc_linear.weight)
-        nn.init.orthogonal_(self.rel_linear.weight)
+        nn.init.kaiming_uniform_(self.arc_linear.weight, a=math.sqrt(5), mode='fan_in', nonlinearity='linear')
+        nn.init.kaiming_uniform_(self.rel_linear.weight, a=math.sqrt(5), mode='fan_in', nonlinearity='linear')
         nn.init.zeros_(self.arc_linear.bias)
         nn.init.zeros_(self.rel_linear.bias)
 

@@ -132,14 +132,14 @@ def batch_label_variable(onebatch, vocab):
         batch_gold_rels.append(gold_rels)
     return batch_gold_arcs, batch_gold_rels
 
-def batch_bert_variable(onebatch, tokenizer):
+def batch_bert_variable(onebatch, config, tokenizer):
     input_ids_list = []
     token_type_ids_list = []
     attention_mask_list = []
     for idx, instance in enumerate(onebatch):
         inst_texts = []
         for idy, EDU in enumerate(instance.EDUs):
-            words = EDU['tokens']
+            words = EDU['tokens'][:config.max_edu_len]
             text = " ".join(words)
             inst_texts.append(text)
         input_ids, token_type_ids, attention_mask = tokenizer.batch_bert_id(inst_texts)

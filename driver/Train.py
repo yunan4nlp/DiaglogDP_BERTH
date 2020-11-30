@@ -35,7 +35,7 @@ def train(train_instances, dev_instances, test_instances, parser, vocab, config,
         for onebatch in data_iter(train_instances, batch_size=config.train_batch_size, shuffle=True):
             parser.train()
             batch_input_ids, batch_token_type_ids, batch_attention_mask, token_lengths = \
-                batch_bert_variable(onebatch, tokenizer)
+                batch_bert_variable(onebatch, config, tokenizer)
             edu_lengths, arc_masks = batch_data_variable(onebatch, vocab)
             feats = batch_feat_variable(onebatch, vocab)
             gold_arcs, gold_rels = batch_label_variable(onebatch, vocab)
@@ -91,7 +91,7 @@ def predict(instances, parser, vocab, config, tokenizer, outputFile):
         edu_lengths, arc_masks = batch_data_variable(onebatch, vocab)
         dialog_feats = batch_feat_variable(onebatch, vocab)
         batch_input_ids, batch_token_type_ids, batch_attention_mask, token_lengths = \
-            batch_bert_variable(onebatch, tokenizer)
+            batch_bert_variable(onebatch, config, tokenizer)
         pred_arcs, pred_rels = parser.parse(
             batch_input_ids, batch_token_type_ids, batch_attention_mask, token_lengths,
             edu_lengths, arc_masks, dialog_feats)
